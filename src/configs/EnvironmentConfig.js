@@ -1,6 +1,6 @@
 // src/config/EnvironmentConfig.js
 const dev = {
-    API_ENDPOINT_URL: 'http://localhost:8181/api/'
+    API_ENDPOINT_URL: 'http://localhost:4000/api/'
 }
 
 const prod = {

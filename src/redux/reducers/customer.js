@@ -1,26 +1,25 @@
-// src/redux/reducers/Auth.js
-import { authActionTypes } from '../actionTypes';
+import { customerActionTypes } from '../actionTypes';
 
 const inititalState = {
     loading: false,
     errorMessage: '',
-    loggedInUser: null,
+    customers: [],
 }
 
-const auth = (state = inititalState, action) => {
+const customer = (state = inititalState, action) => {
     switch(action.type) {
-        case authActionTypes.SIGN_IN:
+        case customerActionTypes.GET_CUSTOMERS:
             return {
                 ...state,
                 loading: true
             }
-        case authActionTypes.SIGN_IN_SUCCESS:
+        case customerActionTypes.GET_CUSTOMERS_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                loggedInUser: action.payload
+                customers: action.payload
         }
-        case authActionTypes.SIGN_IN_FAIL:
+        case customerActionTypes.GET_CUSTOMERS_FAILURE:
             return {
                 ...state,
                 loading: false,
@@ -31,4 +30,4 @@ const auth = (state = inititalState, action) => {
     }
 }
 
-export default auth;
+export default customer;

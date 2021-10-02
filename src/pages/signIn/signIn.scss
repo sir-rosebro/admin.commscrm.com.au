@@ -1,3 +1,25 @@
-.signIn {
-    
+.sign_in {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    flex-direction: column;
+}
+.login-form {
+    width: 300px;
+    text-align: left;
+}
+.login_form_forgot {
+    float: right;
+    font-size: 16px;
+}
+.ant-col-rtl .login-form-forgot {
+    float: left;
+}
+.login-form-button {
+    float: left;
+    padding: 0 20px;
+    border-radius: 20px;
+    // width: 100%;
 }

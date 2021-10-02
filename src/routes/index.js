@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     Switch,
     Route
@@ -6,7 +7,9 @@ import {
 import {
     Landing,
     SignIn,
-    Dashboard
+    Dashboard,
+    ForgotPassword,
+    ResetPassword
 } from '../pages';
 
 function Routes() {
@@ -14,6 +17,14 @@ function Routes() {
         <Switch>
             <Route path="/sign-in">
                 <SignIn />
+            </Route>
+
+            <Route path="/forgot-password">
+                <ForgotPassword />
+            </Route>
+
+            <Route path="/reset-password">
+                <ResetPassword />
             </Route>
             
             <Route path="/dashboard">
