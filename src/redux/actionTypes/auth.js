@@ -11,6 +11,7 @@ export const authActionTypes = {
     RESET_PASSWORD_SUCCESS:"RESET_PASSWORD_SUCCESS",
     RESET_PASSWORD_FAIL:"RESET_PASSWORD_FAIL",
 
-    AUTH_TOKEN: 'auth_token',
-    TOKEN_PAYLOAD_KEY: 'x-access-token'
+    LOGOUT:"LOGOUT"
 }
+
+

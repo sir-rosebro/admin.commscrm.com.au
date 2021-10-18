@@ -63,3 +63,9 @@ export const resetPasswordSuccess = (payload) => {
         payload
     }
 }
+
+export const logout = () => {
+    return {
+        type:authActionTypes.LOGOUT
+    }
+}

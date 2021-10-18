@@ -4,7 +4,10 @@ import { Badge,Table, Button, Space, Switch, Popconfirm } from 'antd';
 // import { DownOutlined } from '@ant-design/icons';
 
 import './userDataGrid.scss';
-import { getCustomers } from '../../redux/actions';
+import { 
+  getCustomers, 
+  approveCustomer
+} from '../../redux/actions';
 
 const UserDataGrid = () => {
 
@@ -18,11 +21,15 @@ const UserDataGrid = () => {
       dispatch(getCustomers());
     }, [])
 
-    const [toggle, setToggle] = useState(false);
+    // const [toggle, setToggle] = useState(false);
     const [filteredInfo, setFilteredInfo] = useState({});
     const [sortedInfo, setSortedInfo] = useState({});
 
     const handlePopConfirm = (record) => {
+      //update isApproved field in database
+      dispatch(approveCustomer(record));
+      //send an email to customer
+      //reflect the change in UI
       record.isApproved = true;
     }
 
@@ -98,7 +105,7 @@ const UserDataGrid = () => {
               !isApproved ? (
                 <>
                   <Popconfirm title={`Do you want to approve ${name}?`} onConfirm={() => handlePopConfirm(record)}>
-                    <Switch checked={toggle} onChange={ () => setToggle(!toggle)}/>
+                    <Switch checked={false}/>
                   </Popconfirm>
                 </>
               ):(

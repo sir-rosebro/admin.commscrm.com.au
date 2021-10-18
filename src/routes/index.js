@@ -7,32 +7,50 @@ import {
 import {
     Landing,
     SignIn,
-    Dashboard,
+    Profile,
     ForgotPassword,
-    ResetPassword
+    ResetPassword,
+    Test,
+    Dashboard,
+    Customer
 } from '../pages';
+
+import PrivateRoute from './PrivateRoute';
+import AuthRoute from './AuthRoute';
 
 function Routes() {
     return(
         <Switch>
-            <Route path="/sign-in">
+            <AuthRoute path="/sign-in">
                 <SignIn />
-            </Route>
+            </AuthRoute>
 
-            <Route path="/forgot-password">
-                <ForgotPassword />
-            </Route>
+            <AuthRoute path="/forgot-password">
+                <ForgotPassword/>
+            </AuthRoute>
 
-            <Route path="/reset-password">
-                <ResetPassword />
-            </Route>
-            
-            <Route path="/dashboard">
+            <AuthRoute path="/reset-password">
+                <ResetPassword/>
+            </AuthRoute>
+
+            <PrivateRoute exact path="/dashboard">
                 <Dashboard/>
-            </Route>
+            </PrivateRoute>
+
+            <PrivateRoute path="/dashboard/customer">
+                <Customer/>
+            </PrivateRoute>
+
+            <PrivateRoute path="/profile">
+                <Profile />
+            </PrivateRoute>
+
+            <PrivateRoute path="/test">
+                <Test />
+            </PrivateRoute>
 
             <Route path="/">
-                <Landing />
+                <Landing/>
             </Route>
             
         </Switch>

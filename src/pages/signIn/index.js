@@ -22,11 +22,11 @@ const SignIn = () => {
     };
 
     useEffect(() => {
-        if (loggedInUser?.token) {
+        if (loggedInUser) {
             setToken(loggedInUser.token);
             history.push('/dashboard');
         }
-    }, [loggedInUser?.token]);
+    }, [loggedInUser]);
 
     return (
         <div className="sign_in">

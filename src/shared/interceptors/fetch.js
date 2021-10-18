@@ -11,24 +11,22 @@ const service = axios.create({
 service.interceptors.request.use(
     (config) => {
         const jwtToken = localStorage.getItem(AUTH_ADMIN_TOKEN);
-
         if (jwtToken) {
             config.headers[TOKEN_PAYLOAD_KEY] = jwtToken;
         }
         return config;
     },
     (error) => {
-        Promise.reject(error);
+        return error.response.data;
     }
 );
 
 service.interceptors.response.use(
-    (response) => {
+    (response) => {// Any status code from range of 2xx
         return response.data;
     },
-    (error) => {
+    (error) => { // Any status codes outside range of 2xx
        return error.response.data;
-        //Promise.reject(error);
     }
 );
 

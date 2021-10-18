@@ -20,3 +20,80 @@ export const getCustomersFailure = (payload) => {
         payload
     }
 }
+
+export const approveCustomer = (payload) => {
+    return {
+        type: customerActionTypes.APPROVE_CUSTOMER,
+        payload
+    }
+}
+
+export const approveCustomerSuccess = (payload) => {
+    return {
+        type: customerActionTypes.APPROVE_CUSTOMER_SUCCESS,
+        payload
+    }
+}
+
+export const approveCustomerFailure = (payload) => {
+    return {
+        type: customerActionTypes.APPROVE_CUSTOMER_FAILURE,
+        payload
+    }
+}
+
+export const setCurrentRead = (payload) => {
+    return {
+        type: customerActionTypes.SET_CURRENT_READ,
+        payload
+    }
+}
+
+export const setCurretEdit = (payload) => {
+    return {
+        type: customerActionTypes.SET_CURRENT_EDIT,
+        payload
+    }
+}
+
+export const searchCustomer = (payload) => {
+    return {
+        type: customerActionTypes.SEARCH_CUSTOMER,
+        payload
+    }
+}
+
+export const searchCustomerSuccess = (payload) => {
+    return {
+        type: customerActionTypes.SEARCH_CUSTOMER_SUCCESS,
+        payload
+    }
+}
+
+export const searchCustomerFailure = (payload) => {
+    return {
+        type: customerActionTypes.SEARCH_CUSTOMER_FAILURE,
+        payload
+    }
+}
+
+export const createCustomer = (payload) => {
+    return {
+        type: customerActionTypes.CREATE_CUSTOMER,
+        payload
+    }
+}
+
+export const createCustomerSuccess = (payload) => {
+    return {
+        type: customerActionTypes.CREATE_CUSTOMER_SUCCESS,
+        payload
+    }
+}
+
+export const createCustomerFailure = (payload) => {
+    return {
+        type: customerActionTypes.CREATE_CUSTOMER_FAILURE,
+        payload
+    }
+}
