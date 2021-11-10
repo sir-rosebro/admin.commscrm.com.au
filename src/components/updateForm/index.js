@@ -7,54 +7,34 @@ import { Button, Form } from "antd";
 import {
   openPanel,
   openCollapsedBox,
-  openReadBox
+  openReadBox,
+  updateCustomer
 } from "../../redux/actions";
 
 import Loading from "../loading";
 
-export default function UpdateForm({ config, formElements }) {
-  console.log(config);
+export default function UpdateForm({ formElements }) {
   const dispatch = useDispatch();
 
-
-  const { isFetching, isSuccess, current:{ edit }} = useSelector(
-    ({customer}) => customer
-  );
-
+  const { current: { edit: { current, isFetching, isSuccess }}} = useSelector(
+    ({ customer }) => customer
+);
 
   const [form] = Form.useForm();
 
   const onSubmit = (fieldsValue) => {
-    if (fieldsValue) {
-      if (fieldsValue.birthday) {
-        fieldsValue = {
-          ...fieldsValue,
-          birthday: fieldsValue["birthday"].format("DD/MM/YYYY"),
-        };
-      }
-      if (fieldsValue.date) {
-        fieldsValue = {
-          ...fieldsValue,
-          birthday: fieldsValue["date"].format("DD/MM/YYYY"),
-        };
-      }
-    }
+    
+    const id = current.id;
+    
 
-    // const id = current._id;
-    // console.log(id);
+    dispatch(updateCustomer({ id, fieldsValue }));
    // dispatch(crud.update(entity, id, fieldsValue));
   };
   useEffect(() => {
-    if (edit) {
-      // if (current.birthday) {
-      //   current.birthday = dayjs(current.birthday);
-      // }
-      // if (current.date) {
-      //   current.date = dayjs(current.date);
-      // }
-      form.setFieldsValue(edit);
+    if (current) {
+      form.setFieldsValue(current);
     }
-  }, [edit]);
+  }, [current]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -62,7 +42,6 @@ export default function UpdateForm({ config, formElements }) {
       dispatch(openCollapsedBox());
       dispatch(openPanel());
       form.resetFields();
-      // dispatch(crud.resetAction("update"));
       // dispatch(crud.list(entity));
     }
   }, [isSuccess]);

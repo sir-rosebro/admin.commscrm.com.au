@@ -16,8 +16,8 @@ export default function ReadItem({ config }) {
 
   const isFirstRun = useRef(true);
   useEffect(() => {
-    console.log("currentResult :", read);
-    console.log("readColumns :", readColumns);
+    // console.log("currentResult :", read);
+    // console.log("readColumns :", readColumns);
     if (isFirstRun.current) {
       isFirstRun.current = false;
       return;
@@ -52,6 +52,6 @@ export default function ReadItem({ config }) {
     );
   });
 
-  console.log("itemsList :", itemsList);
+// console.log("itemsList :", itemsList);
   return <div style={show}>{itemsList}</div>;
 }

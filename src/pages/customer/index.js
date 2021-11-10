@@ -41,11 +41,11 @@ const readColumns = [
   },
   {
     title: "Name",
-    dataIndex: "name",
+    dataIndex: "contactName",
   },
   {
     title: "Address",
-    dataIndex: "address",
+    dataIndex: "billingAddress",
   },
   {
     title: "Status",

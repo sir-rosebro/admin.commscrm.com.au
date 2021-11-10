@@ -7,7 +7,6 @@ import { useToken } from '../../hooks/useToken';
 
 import './signin.scss';
 import { signIn } from '../../redux/actions';
-
 const SignIn = () => {
     const dispatch = useDispatch();
     const [, setToken] = useToken();

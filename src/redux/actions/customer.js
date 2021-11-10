@@ -56,6 +56,13 @@ export const setCurretEdit = (payload) => {
     }
 }
 
+export const setCurrentDelete = (payload) => {
+    return {
+        type: customerActionTypes.SET_CURRENT_DELETE,
+        payload
+    }
+}
+
 export const searchCustomer = (payload) => {
     return {
         type: customerActionTypes.SEARCH_CUSTOMER,
@@ -94,6 +101,48 @@ export const createCustomerSuccess = (payload) => {
 export const createCustomerFailure = (payload) => {
     return {
         type: customerActionTypes.CREATE_CUSTOMER_FAILURE,
+        payload
+    }
+}
+
+export const deleteCustomer = (payload) => {
+    return {
+        type: customerActionTypes.DELETE_CUSTOMER,
+        payload
+    }
+}
+
+export const deleteCustomerSuccess = (payload) => {
+    return {
+        type: customerActionTypes.DELETE_CUSTOMER_SUCCESS,
+        payload
+    }
+}
+
+export const deleteCustomerFailure = (payload) => {
+    return {
+        type: customerActionTypes.DELETE_CUSTOMER_FAILURE,
+        payload
+    }
+}
+
+export const updateCustomer = (payload) => {
+    return {
+        type: customerActionTypes.UPDATE_CUSTOMER,
+        payload
+    }
+}
+
+export const updateCustomerSuccess = (payload) => {
+    return {
+        type: customerActionTypes.UPDATE_CUSTOMER_SUCCESS,
+        payload
+    }
+}
+
+export const updateCustomerFailure = (payload) => {
+    return {
+        type: customerActionTypes.UPDATE_CUSTOMER_FAILURE,
         payload
     }
 }

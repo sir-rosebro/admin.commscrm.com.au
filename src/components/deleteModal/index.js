@@ -1,58 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import { Modal } from "antd";
 
-import PropTypes from 'prop-types';
-// import { useDispatch, useSelector } from "react-redux";
-// import { crud } from "@/redux/crud/actions";
-// import { useCrudContext } from "@/context/crud";
-// import { selectDeletedItem } from "@/redux/crud/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  closeModal,
+  deleteCustomer,
+ // getCustomers
+} from "../../redux/actions";
 
-//import { valueByString } from "@/utils/helpers";
 
 export default function DeleteModal({ config }) {
+  
+  const dispatch = useDispatch();
   let {
-    //entity,
-    entityDisplayLabels,
     deleteMessage = "Do you want delete : ",
     modalTitle = "Remove Item",
   } = config;
- const [isSuccess, setIsSucces] = useState(true);
- const [isModalOpen, setModalOpen] = useState(false);
- const [isLoading, setLoading] = useState(true);
-//   const dispatch = useDispatch();
-//   const { current, isLoading, isSuccess } = useSelector(selectDeletedItem);
-//   const { state, crudContextAction } = useCrudContext();
-//   const { isModalOpen } = state;
-//   const { modal } = crudContextAction;
-//   const [displayItem, setDisplayItem] = useState("");
-  const displayItem = entityDisplayLabels;
+ 
+  const { current: { delete: { current: { id }, isFetching, isSuccess } }} = useSelector(
+    ({customer}) => customer
+  );
+  
+  const { isModalOpen } = useSelector(
+    ({ ui }) => ui
+  );
+
   useEffect(() => {
     if (isSuccess) {
-    //   modal.close();
-    //   dispatch(crud.list(entity));
-    //   dispatch(crud.resetAction(entity));
+      dispatch(closeModal());
+      //dispatch(getCustomers());
     }
-    // if (current) {
-    //   let labels = entityDisplayLabels
-    //     .map((x) => valueByString(current, x))
-    //     .join(" ");
-
-    //   setDisplayItem(labels);
-    // }
-  }, [isSuccess]);
+  }, [isSuccess, id]);
 
   const handleOk = () => {
-      console.log('handleOk hit');
-      setIsSucces(!isSuccess);
-      setModalOpen(false);
-      setLoading(false);
-    // const id = current._id;
-    // dispatch(crud.delete(entity, id));
+    dispatch(deleteCustomer({id}));
   };
   const handleCancel = () => {
-    if (!isLoading) 
-     console.log('modal should be closed!!');
-    //modal.close();
+    if (!isFetching) dispatch(closeModal());
   };
   return (
     <Modal
@@ -60,16 +44,12 @@ export default function DeleteModal({ config }) {
       visible={isModalOpen}
       onOk={handleOk}
       onCancel={handleCancel}
-      confirmLoading={isLoading}
+      confirmLoading={isFetching}
     >
       <p>
         {deleteMessage}
-        {displayItem}
+        {id}
       </p>
     </Modal>
   );
-}
-
-DeleteModal.propTypes = {
-  config: PropTypes.object,
 }

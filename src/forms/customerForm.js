@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Input } from "antd";
 import PropTypes from 'prop-types';
+import Password from "antd/lib/input/Password";
 
 export default function CustomerForm({ isUpdateForm = false }) {
   return (
@@ -18,7 +19,7 @@ export default function CustomerForm({ isUpdateForm = false }) {
       
       <Form.Item
         label="Name"
-        name="name"
+        name="contactName"
         rules={[
           {
             required: true,
@@ -50,13 +51,13 @@ export default function CustomerForm({ isUpdateForm = false }) {
         <Input />
       </Form.Item>
       <Form.Item
-        label="Address"
-        name="address"
+        label="Password"
+        name="password"
         rules={[
           {
             required: true,
-            message: "Please enter your address.",
-          },
+            message: "Please enter your password.",
+          }
         ]}
         style={{
           display: "inline-block",
@@ -64,20 +65,16 @@ export default function CustomerForm({ isUpdateForm = false }) {
           paddingLeft: "5px",
         }}
       >
-        <Input />
+        <Password />
       </Form.Item>
 
       <Form.Item
-        name="email"
-        label="E-mail"
+        name="billingAddress"
+        label="Address"
         rules={[
           {
-            type: "email",
-            message: "The input is not valid E-mail!",
-          },
-          {
             required: true,
-            message: "Please input your E-mail!",
+            message: "Please enter your address.",
           },
         ]}
       >

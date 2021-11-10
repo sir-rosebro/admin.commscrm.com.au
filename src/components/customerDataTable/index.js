@@ -5,7 +5,8 @@ import {
   Dropdown,
   PageHeader,
   Table,
-  Badge
+  Badge,
+  Popconfirm
 } from "antd";
 
 import { 
@@ -16,7 +17,8 @@ import {
   FileExcelOutlined,
   UserAddOutlined,
   ExportOutlined,
-  DatabaseOutlined
+  DatabaseOutlined,
+  ArrowRightOutlined
   //FilePdfOutlined 
 } from "@ant-design/icons";
 
@@ -25,6 +27,8 @@ import {
   getCustomers,
   setCurrentRead,
   setCurretEdit,
+  setCurrentDelete,
+  approveCustomer,
   openPanel,
   closeCollapsedBox,
   openCollapsedBox,
@@ -32,47 +36,6 @@ import {
   openEditBox,
   openModal,
 } from "../../redux/actions";
-
-const dataTableColumns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-    },
-    {
-      title: "Address",
-      dataIndex: "address",
-    },
-    {
-      title: "Status",
-      render: function tblStatusCell(row) {
-        return (
-          row.isApproved? (
-            <Badge
-            className="site-badge-count-109"
-            count={'approved'}
-            style={{ backgroundColor: '#52c41a' }}
-          />
-          ):(
-            'not approved'
-          )
-        );
-      }
-    },
-    {
-        title: "",
-        render: function tblDropDownCell (row) { return (
-          <Dropdown overlay={DropDownRowMenu({ row })} trigger={["click"]}>
-            <EllipsisOutlined style={{ cursor: "pointer", fontSize: "24px" }} />
-          </Dropdown>
-        )
-      }, 
-    }
-  ];
-
 
 
 const exportDropDown = () => {
@@ -118,6 +81,7 @@ function DropDownRowMenu({ row }) {
     dispatch(openCollapsedBox());
   }
   function Delete() {
+    dispatch(setCurrentDelete(row));
    // dispatch(crud.currentAction("delete", item));
   dispatch(openModal());
   }
@@ -141,23 +105,71 @@ function DropDownRowMenu({ row }) {
 }
 
  const CustomerDataTable = ({ config }) => {
+  const dispatch = useDispatch();
+  const { customers:{ list, pagination}, isFetching} = useSelector(
+    ({customer}) => customer
+  );
+  
+  const dataTableColumns = [
+    {
+      title: "Name",
+      dataIndex: "contactName",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+    },
+    {
+      title: "Address",
+      dataIndex: "billingAddress",
+    },
+    {
+      title: "Status",
+      render: function tblStatusCell(row) {
+        return (
+          row.isApproved? (
+            <Badge
+            className="site-badge-count-109"
+            count={'Approved'}
+            style={{ backgroundColor: '#52c41a' }}
+          />
+          ):(
+            <Popconfirm 
+              title={`Do you want to approve ${row.name}?`} 
+              onConfirm={(e) => handleApprovePopConfirm(e, row)}
+            >
+              <button className="btn_approve">Approve <ArrowRightOutlined /></button>
+            </Popconfirm>
+          )
+        );
+      }
+    },
+    {
+        title: "",
+        render: function tblDropDownCell (row) { return (
+          <Dropdown overlay={DropDownRowMenu({ row })} trigger={["click"]}>
+            <EllipsisOutlined style={{ cursor: "pointer", fontSize: "24px" }} />
+          </Dropdown>
+        )
+      }, 
+    }
+  ];
 
-      const { customers:{ list, pagination }, isFetching} = useSelector(
-        ({customer}) => customer
-      );
-     // const { pagination, items } = listResult;
-    
-      const dispatch = useDispatch();
-    
-      const handelDataTableLoad = useCallback((pagination) => {
-        console.log(pagination);
-       // dispatch(crud.list(entity, pagination.current));
-      }, []);
-    
-      useEffect(() => {
-        dispatch(getCustomers());
-      //  dispatch(crud.list(entity));
-      }, []);
+  const handleApprovePopConfirm = (e, record) => {
+    e.preventDefault();
+    dispatch(approveCustomer(record));
+    // record.isApproved = true;
+  }
+
+  const handelDataTableLoad = useCallback((pagination) => {
+    console.log(pagination);
+    dispatch(getCustomers(pagination));
+  }, []);
+
+  useEffect(() => {
+    dispatch(getCustomers(pagination));
+  //  dispatch(crud.list(entity));
+  }, []);
     
   return (
       <>

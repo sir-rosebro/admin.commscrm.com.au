@@ -5,6 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Button, Form } from "antd";
 import Loading from "../loading";
+import { createCustomer } from "../../redux/actions/customer";
+import {
+  openPanel,
+  openCollapsedBox,
+  openReadBox
+} from "../../redux/actions";
 
 export default function CreateForm({ config, formElements }) {
   let { entity } = config;
@@ -13,35 +19,21 @@ export default function CreateForm({ config, formElements }) {
   const {current:{create:{isFetching, isSuccess}}} = useSelector(
     ({ customer }) => customer
 );
-  const {panel, collapsedBox, readBox} = useSelector(
-    ({ ui }) => ui
-);
+//   const {panel, collapsedBox, readBox} = useSelector(
+//     ({ ui }) => ui
+// );
 
   const [form] = Form.useForm();
   const onSubmit = (fieldsValue) => {
-    if (fieldsValue) {
-      if (fieldsValue.birthday) {
-        fieldsValue = {
-          ...fieldsValue,
-          birthday: fieldsValue["birthday"].format("DD/MM/YYYY"),
-        };
-      }
-      if (fieldsValue.date) {
-        fieldsValue = {
-          ...fieldsValue,
-          date: fieldsValue["date"].format("DD/MM/YYYY"),
-        };
-      }
-    }
-
-   // dispatch(crud.create(entity, fieldsValue));
+    dispatch(createCustomer(fieldsValue));
+ //  dispatch(crud.create(entity, fieldsValue));
   };
 
   useEffect(() => {
     if (isSuccess) {
-      readBox.open();
-      collapsedBox.open();
-      panel.open();
+      dispatch(openReadBox());
+      dispatch(openCollapsedBox());
+      dispatch(openPanel());
       form.resetFields();
      // dispatch(crud.resetAction("create"));
      // dispatch(crud.list(entity));

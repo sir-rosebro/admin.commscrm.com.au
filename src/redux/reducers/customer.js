@@ -1,7 +1,7 @@
 import { customerActionTypes } from '../actionTypes';
 const initialKeyState = {
     result: null,
-    current: null,
+    current: {},
     isFetching: false,
     isSuccess: false,  
 }
@@ -17,7 +17,7 @@ const inititalState = {
         isSuccess: false,
     },
     current: {
-        edit:null,
+        edit:initialKeyState,
         read:null,
         delete:initialKeyState,
         create:initialKeyState
@@ -32,38 +32,59 @@ const customer = (state = inititalState, action) => {
         case customerActionTypes.GET_CUSTOMERS:
             return {
                 ...state,
-                isFetching: true,
-                isSuccess: false,
+                customers: {
+                    ...state.customers,
+                    isFetching: true,
+                    isSuccess: false,
+                }
             }
         case customerActionTypes.GET_CUSTOMERS_SUCCESS:
             return {
                 ...state,
-                isFetching: false,
-                isSuccess: true,
                 customers: {
-                    list:action.payload
+                    ...state.customers,
+                    list:action.payload.customers,
+                    pagination:action.payload.pagination,
+                    isFetching: true,
+                    isSuccess: false,
                 }
         }
         case customerActionTypes.GET_CUSTOMERS_FAILURE:
             return {
                 ...state,
-                loading: false,
-                errorMessage: action.payload
+                customers: {
+                    ...state.customers,
+                    loading: false,
+                    isSuccess:false
+                }
         }
         case customerActionTypes.APPROVE_CUSTOMER:
             return {
                 ...state,
-                loading:true
+                customers: {
+                    ...state.customers,
+                    isFetching: true,
+                }
         }
         case customerActionTypes.APPROVE_CUSTOMER_FAILURE:
             return {
                 ...state,
-                loading:false
+                customers: {
+                    ...state.customers,
+                    isFetching: false,
+                }
         }
-        case customerActionTypes.APPROVE_CUSTOMER_SUCCESS:
-            return {
+        case customerActionTypes.APPROVE_CUSTOMER_SUCCESS:  
+        return {
                 ...state,
-                loading:false
+                customers: {
+                    ...state.customers,
+                    list: state.customers.list.map(customer => customer.id === parseInt(action.payload)? {
+                        ...customer,
+                        isApproved:true,
+                    } : customer),
+                    isFetching: false
+            }
         }
         case customerActionTypes.SET_CURRENT_READ:
             return {
@@ -78,7 +99,21 @@ const customer = (state = inititalState, action) => {
                 ...state,
                 current: {
                     ...state.current,
-                    edit:action.payload
+                    edit:{
+                        ...state.current.edit,
+                        current:action.payload
+                    }
+            }
+        }
+        case customerActionTypes.SET_CURRENT_DELETE:
+            return {
+                ...state,
+                current: {
+                    ...state.current,
+                    delete:{
+                        ...state.current.delete,
+                        current:action.payload
+                    }
             }
         }
         case customerActionTypes.SEARCH_CUSTOMER:
@@ -121,13 +156,112 @@ const customer = (state = inititalState, action) => {
         case customerActionTypes.CREATE_CUSTOMER_SUCCESS:
             return {
                 ...state,
-                
+                customers: {
+                    ...state.customers,
+                    list: [action.payload, ...state.customers.list]
+                },
                 current: {
                     ...state.current,
                     create: {
                         ...state.current.create,
                         isFetching:false,
                         isSuccess:true
+                    }
+                }
+            }
+        case customerActionTypes.CREATE_CUSTOMER_FAILURE:
+            return {
+                ...state,
+                current: {
+                    ...state.current,
+                    create: {
+                        ...state.current.create,
+                        isFetching:false
+                    }
+                }
+            }
+        case customerActionTypes.DELETE_CUSTOMER:
+            return {
+                ...state,
+                current: {
+                    ...state.current,
+                    delete: {
+                        ...state.current.delete,
+                        isFetching:true,
+                        isSuccess:false
+                    }
+                }
+            }
+        case customerActionTypes.DELETE_CUSTOMER_SUCCESS:
+            return {
+                ...state,
+                customers: {
+                    ...state.customers,
+                    list: state.customers.list.filter( customer => customer.id !== parseInt(action.payload))
+                },
+                current: {
+                    ...state.current,
+                    delete: {
+                        ...state.current.delete,
+                        isFetching:false,
+                        isSuccess:true
+                    }
+                }
+            }
+        case customerActionTypes.DELETE_CUSTOMER_FAILURE:
+            return {
+                ...state,
+                current: {
+                    ...state.current,
+                    delete: {
+                        ...state.current.delete,
+                        isFetching:false,
+                        isSuccess:false
+                    }
+                }
+            }
+        case customerActionTypes.UPDATE_CUSTOMER:
+            return {
+                ...state,
+                current: {
+                    ...state.current,
+                    edit: {
+                        ...state.current.edit,
+                        isFetching:true,
+                        isSuccess:false
+                    }
+                }
+            }
+        case customerActionTypes.UPDATE_CUSTOMER_SUCCESS:
+            return {
+                ...state,
+                customers: {
+                    ...state.customers,
+                    list: state.customers.list.map( customer => customer.id === action.payload.id? (
+                        { ...customer, ...action.payload}
+                        ):(
+                        customer
+                        )  
+                    )
+                },
+                current: {
+                    ...state.current,
+                    edit: {
+                        ...state.current.edit,
+                        isFetching:false,
+                        isSuccess:true
+                    }
+                }
+            }
+        case customerActionTypes.UPDATE_CUSTOMER_FAILURE:
+            return {
+                ...state,
+                current: {
+                    ...state.current,
+                    edit: {
+                        ...state.current.delete,
+                        isFetching:false,
+                        isSuccess:false
                     }
                 }
             }
